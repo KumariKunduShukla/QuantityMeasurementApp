@@ -36,13 +36,43 @@ public class QuantityMeasurementApp {
 		}
 	}
 
-	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		int inputOne = input.nextInt();
-		int inputTwo = input.nextInt();
-		Feet feet1 = new Feet(inputOne);
-		Feet feet2 = new Feet(inputTwo);
+	// Inner class to represent Inch measurement
+		public static class Inches {
+			private final double value;
 
-		System.out.println("Equal (" + feet1.equals(feet2) + ")");
+			public Inches(double value) {
+				this.value = value;
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if (this == obj)
+					return true;
+
+				if (obj == null || getClass() != obj.getClass())
+					return false;
+
+				Inches inches = (Inches) obj;
+
+				return Double.compare(this.value, inches.value) == 0;
+			}
+		}
+
+		public static void demonstrateFeetEquality() {
+			Feet f1 = new Feet(1.0);
+			Feet f2 = new Feet(1.0);
+			System.out.println("Feet Equal: " + f1.equals(f2));
+		}
+
+		public static void demonstrateInchesEquality() {
+			Inches i1 = new Inches(1.0);
+			Inches i2 = new Inches(1.0);
+			System.out.println("Inches Equal: " + i1.equals(i2));
+		}
+
+		public static void main(String[] args) {
+			demonstrateFeetEquality();
+			demonstrateInchesEquality();
+		}
+
 	}
-}
