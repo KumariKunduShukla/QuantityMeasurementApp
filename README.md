@@ -1,4 +1,4 @@
-# Quantity Management App
+# Quantity Measurement App
 
 A Java-based Quantity Measurement Management System built using Maven.
 
