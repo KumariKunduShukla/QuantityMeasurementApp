@@ -1,3 +1,4 @@
+
 package com.example;
 
 import org.junit.jupiter.api.Test;
@@ -5,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QuantityMeasurementAppTest {
 
-	
+	// ================================
 	// LENGTH ENUM TESTS
+	// ================================
+
 	@Test
 	public void testLengthUnitConversionFactor() {
 		assertEquals(12.0, LengthUnit.FEET.getConversionFactor(), 0.0001);
@@ -30,8 +33,10 @@ public class QuantityMeasurementAppTest {
 		assertEquals(1.0, LengthUnit.YARDS.convertFromBaseUnit(36), 0.01);
 	}
 
-
+	// ================================
 	// WEIGHT ENUM TESTS
+	// ================================
+
 	@Test
 	public void testWeightUnitConversionFactor() {
 		assertEquals(0.001, WeightUnit.MILLIGRAM.getConversionFactor(), 0.0001);
@@ -52,8 +57,10 @@ public class QuantityMeasurementAppTest {
 		assertEquals(1.0, WeightUnit.KILOGRAM.convertFromBaseUnit(1000), 0.01);
 	}
 
-	
+	// ================================
 	// QUANTITY EQUALITY TESTS
+	// ================================
+
 	@Test
 	public void testLengthEquality() {
 		assertTrue(new Quantity<>(1, LengthUnit.FEET).equals(new Quantity<>(12, LengthUnit.INCHES)));
@@ -85,8 +92,10 @@ public class QuantityMeasurementAppTest {
 		assertTrue(q.equals(q));
 	}
 
-	
+	// ================================
 	// CONVERSION TESTS
+	// ================================
+
 	@Test
 	public void testLengthConversion() {
 		Quantity<LengthUnit> result = new Quantity<>(1, LengthUnit.FEET).convertTo(LengthUnit.INCHES);
@@ -110,8 +119,10 @@ public class QuantityMeasurementAppTest {
 		assertTrue(original.equals(result));
 	}
 
-
+	// ================================
 	// ADDITION TESTS
+	// ================================
+
 	@Test
 	public void testLengthAddition() {
 		Quantity<LengthUnit> result = new Quantity<>(1, LengthUnit.FEET).add(new Quantity<>(12, LengthUnit.INCHES));
@@ -133,9 +144,11 @@ public class QuantityMeasurementAppTest {
 
 		assertTrue(result.equals(new Quantity<>(2, WeightUnit.KILOGRAM)));
 	}
-	
 
+	// ================================
 	// NULL & INVALID TESTS
+	// ================================
+
 	@Test
 	public void testConstructorNullUnit() {
 		assertThrows(IllegalArgumentException.class, () -> new Quantity<>(1, null));
@@ -168,8 +181,10 @@ public class QuantityMeasurementAppTest {
 		assertThrows(IllegalArgumentException.class, () -> l1.add(l2, null));
 	}
 
-	
+	// ================================
 	// HASHCODE TEST
+	// ================================
+
 	@Test
 	public void testHashCodeConsistency() {
 		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
@@ -178,8 +193,10 @@ public class QuantityMeasurementAppTest {
 		assertEquals(q1.hashCode(), q2.hashCode());
 	}
 
-
+	// ================================
 	// IMMUTABILITY TEST
+	// ================================
+
 	@Test
 	public void testImmutability() {
 		Quantity<LengthUnit> l1 = new Quantity<>(1, LengthUnit.FEET);
@@ -751,5 +768,205 @@ public class QuantityMeasurementAppTest {
 		Quantity<LengthUnit> q2 = new Quantity<>(0, LengthUnit.FEET);
 
 		assertThrows(ArithmeticException.class, () -> q1.divide(q2));
+	}
+
+	// ================= UC13 REFACTOR SAFETY =================
+
+	@Test
+	public void testAdd_BehaviourUnchanged() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.add(q2);
+
+		assertTrue(result.equals(new Quantity<>(2, LengthUnit.FEET)));
+	}
+
+	@Test
+	public void testSubtract_BehaviourUnchanged() {
+		Quantity<LengthUnit> q1 = new Quantity<>(2, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.subtract(q2);
+
+		assertTrue(result.equals(new Quantity<>(1, LengthUnit.FEET)));
+	}
+
+	@Test
+	public void testDivide_BehaviourUnchanged() {
+		Quantity<LengthUnit> q1 = new Quantity<>(24, LengthUnit.INCHES);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		assertEquals(2.0, q1.divide(q2), 0.0001);
+	}
+
+	@Test
+	public void testAdd_WithTargetUnit_BehaviourUnchanged() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.add(q2, LengthUnit.INCHES);
+
+		assertTrue(result.equals(new Quantity<>(24, LengthUnit.INCHES)));
+	}
+
+	@Test
+	public void testSubtract_WithTargetUnit_BehaviourUnchanged() {
+		Quantity<LengthUnit> q1 = new Quantity<>(2, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.subtract(q2, LengthUnit.INCHES);
+
+		assertTrue(result.equals(new Quantity<>(12, LengthUnit.INCHES)));
+	}
+
+	// ================= UC13 VALIDATION TESTS =================
+
+	@Test
+	public void testAdd_NullOperandThrowsException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		assertThrows(IllegalArgumentException.class, () -> q1.add(null));
+	}
+
+	@Test
+	public void testSubtract_NullOperandThrowsException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		assertThrows(IllegalArgumentException.class, () -> q1.subtract(null));
+	}
+
+	@Test
+	public void testDivide_NullOperandThrowsException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		assertThrows(IllegalArgumentException.class, () -> q1.divide(null));
+	}
+
+	@Test
+	public void testAdd_WithNullTargetUnitThrowsException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.FEET);
+
+		assertThrows(IllegalArgumentException.class, () -> q1.add(q2, null));
+	}
+
+	@Test
+	public void testSubtract_WithNullTargetUnitThrowsException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.FEET);
+
+		assertThrows(IllegalArgumentException.class, () -> q1.subtract(q2, null));
+	}
+
+	@Test
+	public void testArithmetic_IncompatibleCategoriesThrowsException() {
+		Quantity<LengthUnit> length = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<WeightUnit> weight = new Quantity<>(1, WeightUnit.KILOGRAM);
+
+		assertThrows(IllegalArgumentException.class, () -> length.add((Quantity) weight));
+	}
+
+	@Test
+	public void testArithmetic_NonFiniteValueThrowsException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(Double.POSITIVE_INFINITY, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.FEET);
+
+		assertThrows(IllegalArgumentException.class, () -> q1.add(q2));
+	}
+
+	// ================= UC13 ARITHMETIC ENUM TESTS =================
+
+	@Test
+	public void testDivide_ByZeroThrowsArithmeticException() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(0, LengthUnit.FEET);
+
+		assertThrows(ArithmeticException.class, () -> q1.divide(q2));
+	}
+
+	@Test
+	public void testAdditionAcrossUnits_UsesBaseUnitLogic() {
+		Quantity<LengthUnit> feet = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> inches = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = feet.add(inches);
+
+		assertTrue(result.equals(new Quantity<>(2, LengthUnit.FEET)));
+	}
+
+	@Test
+	public void testSubtractionAcrossUnits_UsesBaseUnitLogic() {
+		Quantity<LengthUnit> feet = new Quantity<>(2, LengthUnit.FEET);
+		Quantity<LengthUnit> inches = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = feet.subtract(inches);
+
+		assertTrue(result.equals(new Quantity<>(1, LengthUnit.FEET)));
+	}
+
+	@Test
+	public void testDivideAcrossUnits_UsesBaseUnitLogic() {
+		Quantity<LengthUnit> feet = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> inches = new Quantity<>(12, LengthUnit.INCHES);
+
+		assertEquals(1.0, feet.divide(inches), 0.0001);
+	}
+
+	// ================= UC13 ROUNDING & DRY TESTS =================
+
+	@Test
+	public void testAddition_RoundsToTwoDecimals() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.add(q2, LengthUnit.FEET);
+
+		assertEquals(1.08, result.getValue(), 0.001);
+	}
+
+	@Test
+	public void testSubtraction_RoundsToTwoDecimals() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.subtract(q2, LengthUnit.FEET);
+
+		assertEquals(0.92, result.getValue(), 0.001);
+	}
+
+	@Test
+	public void testAdd_ResultIsNewObject() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.add(q2);
+
+		assertNotSame(q1, result);
+		assertNotSame(q2, result);
+	}
+
+	@Test
+	public void testSubtract_ResultIsNewObject() {
+		Quantity<LengthUnit> q1 = new Quantity<>(2, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+		Quantity<LengthUnit> result = q1.subtract(q2);
+
+		assertNotSame(q1, result);
+	}
+
+	@Test
+	public void testConvertTo_DoesNotMutateOriginalObject() {
+		Quantity<LengthUnit> original = new Quantity<>(1, LengthUnit.FEET);
+		original.convertTo(LengthUnit.INCHES);
+
+		assertEquals(1, original.getValue());
+		assertEquals(LengthUnit.FEET, original.getUnit());
+	}
+
+	@Test
+	public void testEquals_UsesTolerance() {
+		Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+		Quantity<LengthUnit> q2 = new Quantity<>(12.001, LengthUnit.INCHES);
+
+		assertTrue(q1.equals(q2));
 	}
 }
