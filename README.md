@@ -1,35 +1,38 @@
-# UC11 — Volume Measurement Support
+# UC-14: Temperature Measurement with Selective Arithmetic Support
 
-This use case demonstrates the scalability of the generic Quantity architecture by introducing a new measurement category Volume without modifying existing classes.
+## Overview
+UC-14 extends the Quantity Measurement Application by adding temperature measurement support (Celsius, Fahrenheit, Kelvin).  
+Unlike length, weight, and volume, temperature does not support arithmetic operations on absolute values.
 
-What was added
+## Key Changes
+- Added `TemperatureUnit` enum.
+- Refactored `IMeasurable` to support optional arithmetic using default methods.
+- Introduced `SupportsArithmetic` functional interface.
+- Added validation for unsupported operations.
+- Maintained backward compatibility with UC1–UC13.
 
-Introduced new enum VolumeUnit implementing IMeasurable
+## Supported Features
+- Temperature conversion between all units.
+- Equality comparison across temperature units.
+- Cross-category comparison prevention.
+- Type safety using generics.
 
-Supported units:
+## Restricted Operations
+- Addition ❌
+- Subtraction ❌
+- Division ❌
 
-LITRE (base unit)
+Unsupported operations throw `UnsupportedOperationException`.
 
-MILLILITRE
+## Design Principles Applied
+- Interface Segregation Principle (ISP)
+- Open/Closed Principle
+- Capability-Based Design
+- Functional Interfaces & Lambda Expressions
+- Default Methods for Interface Evolution
 
-GALLON
-
-Key Achievements
-
-No changes required in Quantity, LengthUnit, or WeightUnit
-
-Generic design automatically supports new unit categories
-
-Added 50 comprehensive test cases for volume:
-
-Equality
-
-Conversion
-
-Addition
-
-Cross-category safety
-
-Precision & immutability
-
-This UC proves the system is open for extension and closed for modification (OCP).
+## Postconditions
+- All previous use cases remain functional.
+- Temperature supports conversion and equality only.
+- Clear error handling for invalid operations.
+- System remains scalable for future measurement categories.
