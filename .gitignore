@@ -1,3 +1,4 @@
+
 # Ignore everything
 *
 
@@ -29,6 +30,7 @@ target/
 # -----------------------------
 # Eclipse
 # -----------------------------
+.metadata/
 .project
 .classpath
 .settings/
