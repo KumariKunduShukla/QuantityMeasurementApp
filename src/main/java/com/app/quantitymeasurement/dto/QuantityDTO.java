@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.app.quantitymeasurement.dto;
 
 public class QuantityDTO {
 
