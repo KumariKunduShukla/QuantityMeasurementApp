@@ -4,10 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QuantityMeasurementAppApplication {
+public class QuantityMeasurementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(QuantityMeasurementAppApplication.class, args);
+		SpringApplication.run(QuantityMeasurementApplication.class, args);
+		System.out.println("Running .....");
 	}
 
 }
