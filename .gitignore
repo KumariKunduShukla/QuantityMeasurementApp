@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 71bb622f1e91ffaa7ff911bd032fe90b874c7d99
 # Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -41,4 +45,8 @@ dump/
 
 # Do not push
 .gitattributes
+<<<<<<< HEAD
 .mvn/
+=======
+.mvn/
+>>>>>>> 71bb622f1e91ffaa7ff911bd032fe90b874c7d99
