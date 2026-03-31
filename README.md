@@ -1,38 +1,24 @@
-# UC-14: Temperature Measurement with Selective Arithmetic Support
+# Quantity Measurement Application – UC16
 
 ## Overview
-UC-14 extends the Quantity Measurement Application by adding temperature measurement support (Celsius, Fahrenheit, Kelvin).  
-Unlike length, weight, and volume, temperature does not support arithmetic operations on absolute values.
 
-## Key Changes
-- Added `TemperatureUnit` enum.
-- Refactored `IMeasurable` to support optional arithmetic using default methods.
-- Introduced `SupportsArithmetic` functional interface.
-- Added validation for unsupported operations.
-- Maintained backward compatibility with UC1–UC13.
+UC16 enhances the Quantity Measurement Application by introducing **database persistence using JDBC**.  
+Previously (UC15), measurement history was stored in an **in-memory cache repository**.  
+UC16 replaces or complements this with a **relational database repository implementation**, enabling scalable and persistent storage.
 
-## Supported Features
-- Temperature conversion between all units.
-- Equality comparison across temperature units.
-- Cross-category comparison prevention.
-- Type safety using generics.
+This use case demonstrates enterprise-level architectural practices including:
 
-## Restricted Operations
-- Addition ❌
-- Subtraction ❌
-- Division ❌
+- Maven based project structure
+- JDBC database integration
+- Connection pooling
+- Repository abstraction
+- Dependency injection
+- Parameterized SQL queries
+- Transaction-safe persistence
+- Integration testing using H2 database
 
-Unsupported operations throw `UnsupportedOperationException`.
+---
 
-## Design Principles Applied
-- Interface Segregation Principle (ISP)
-- Open/Closed Principle
-- Capability-Based Design
-- Functional Interfaces & Lambda Expressions
-- Default Methods for Interface Evolution
+## Architecture
 
-## Postconditions
-- All previous use cases remain functional.
-- Temperature supports conversion and equality only.
-- Clear error handling for invalid operations.
-- System remains scalable for future measurement categories.
+The application follows **N-Tier Architecture**
