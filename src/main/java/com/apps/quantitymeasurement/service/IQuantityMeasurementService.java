@@ -1,3 +1,4 @@
+
 package com.apps.quantitymeasurement.service;
 
 import com.apps.quantitymeasurement.dto.QuantityInputDTO;
@@ -18,6 +19,8 @@ public interface IQuantityMeasurementService {
     QuantityMeasurementDTO subtract(QuantityInputDTO input);
 
     QuantityMeasurementDTO divide(QuantityInputDTO input);
+    
+    QuantityMeasurementDTO multiply(QuantityInputDTO quantityInputDTO);
 
     // ===== History & Reporting =====
 
